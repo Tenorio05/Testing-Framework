@@ -147,3 +147,184 @@ def test_age_is_18():
     assert result.status == Status.APPROVED
     assert result.reasons == ["Applicant meets all scholarship requirements."]
 
+
+# TESTES PARA MATAR 
+def test_gpa_is_0():
+
+    result = evaluate_scholarship(
+        age = 18,
+        gpa = 0.0,
+        attendance_rate = 92.0,
+        has_required_courses = True,
+        disciplinary_record = False
+    )
+
+    assert result.status == Status.REJECTED
+    assert "GPA is below the minimum required." in result.reasons
+
+def test_gpa_is_5_9():
+
+    result = evaluate_scholarship(
+        age = 18,
+        gpa = 5.9,
+        attendance_rate = 92.0,
+        has_required_courses = True,
+        disciplinary_record = False
+    )
+
+    assert result.status == Status.REJECTED
+    assert "GPA is below the minimum required." in result.reasons
+
+def test_gpa_is_6_0():
+
+    result = evaluate_scholarship(
+        age = 18,
+        gpa = 6.0,
+        attendance_rate = 92.0,
+        has_required_courses = True,
+        disciplinary_record = False
+    )
+
+    assert result.status == Status.MANUAL_REVIEW
+    assert "GPA is in the manual review range." in result.reasons
+
+def test_gpa_is_6_9():
+
+    result = evaluate_scholarship(
+        age = 18,
+        gpa = 6.9,
+        attendance_rate = 92.0,
+        has_required_courses = True,
+        disciplinary_record = False
+    )
+
+    assert result.status == Status.MANUAL_REVIEW
+    assert "GPA is in the manual review range." in result.reasons
+
+def test_gpa_is_7_0():
+
+    result = evaluate_scholarship(
+        age = 18,
+        gpa = 7.0,
+        attendance_rate = 92.0,
+        has_required_courses = True,
+        disciplinary_record = False
+    )
+
+    assert result.status == Status.APPROVED
+    assert result.reasons == ["Applicant meets all scholarship requirements."]
+
+def test_gpa_is_10_0():
+
+    result = evaluate_scholarship(
+        age = 18,
+        gpa = 10.0,
+        attendance_rate = 92.0,
+        has_required_courses = True,
+        disciplinary_record = False
+    )
+
+    assert result.status == Status.APPROVED
+    assert result.reasons == ["Applicant meets all scholarship requirements."]
+
+def test_invalid_gpa_negative():
+
+    with pytest.raises(ValueError, match="GPA must be between 0 and 10."):
+
+        evaluate_scholarship(
+            age = 18,
+            gpa = -0.1,
+            attendance_rate = 92.0,
+            has_required_courses = True,
+            disciplinary_record = False
+        )
+
+def test_attendance_rate_is_0():
+
+    result = evaluate_scholarship(
+        age = 18,
+        gpa = 8.5,
+        attendance_rate = 0.0,
+        has_required_courses = True,
+        disciplinary_record = False
+    )
+
+    assert result.status == Status.REJECTED
+    assert "Attendance rate is below the minimum required." in result.reasons
+
+def test_attendance_rate_is_74_9():
+
+    result = evaluate_scholarship(
+        age = 18,
+        gpa = 8.5,
+        attendance_rate = 74.9,
+        has_required_courses = True,
+        disciplinary_record = False
+    )
+
+    assert result.status == Status.REJECTED
+    assert "Attendance rate is below the minimum required." in result.reasons
+
+def test_attendance_rate_is_75_0():
+
+    result = evaluate_scholarship(
+        age = 18,
+        gpa = 8.5,
+        attendance_rate = 75.0,
+        has_required_courses = True,
+        disciplinary_record = False
+    )
+
+    assert result.status == Status.MANUAL_REVIEW
+    assert "Attendance rate is in the manual review range." in result.reasons
+
+def test_attendance_rate_is_79_9():
+
+    result = evaluate_scholarship(
+        age = 18,
+        gpa = 8.5,
+        attendance_rate = 79.9,
+        has_required_courses = True,
+        disciplinary_record = False
+    )
+
+    assert result.status == Status.MANUAL_REVIEW
+    assert "Attendance rate is in the manual review range." in result.reasons
+
+def test_attendance_rate_is_80_0():
+
+    result = evaluate_scholarship(
+        age = 18,
+        gpa = 8.5,
+        attendance_rate = 80.0,
+        has_required_courses = True,
+        disciplinary_record = False
+    )
+
+    assert result.status == Status.APPROVED
+    assert result.reasons == ["Applicant meets all scholarship requirements."]
+
+def test_attendance_rate_is_100_0():
+
+    result = evaluate_scholarship(
+        age = 18,
+        gpa = 8.5,
+        attendance_rate = 100.0,
+        has_required_courses = True,
+        disciplinary_record = False
+    )
+
+    assert result.status == Status.APPROVED
+    assert result.reasons == ["Applicant meets all scholarship requirements."]
+
+def test_invalid_attendance_rate_above():
+
+    with pytest.raises(ValueError, match="Attendance rate must be between 0 and 100."):
+
+        evaluate_scholarship(
+            age = 18,
+            gpa = 8.5,
+            attendance_rate = 100.1,
+            has_required_courses = True,
+            disciplinary_record = False
+        )
